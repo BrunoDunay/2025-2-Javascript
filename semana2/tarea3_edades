@@ -1,0 +1,59 @@
+const {ask} = require('../helpers/input');
+
+function obtenerMayor(edades){
+        let mayor = edades[0];
+        for (let i = 1; i < edades.length; i++) {
+            if (edades[i] > mayor) {
+                mayor += edades[i];
+            }
+        }
+        let contador = mayor.length;
+        return contador;
+    }
+
+async function main() {
+    let edades = [];
+    let contador = 0;
+
+    opcion = await ask("\n1. Agregar edad\n2. Quitar edad\n3. Ver mayores de edad\n4. Salir\n ");
+
+     while (opcion !== '4'){
+            opcion = await ask("\n1. Agregar edad\n2. Quitar edad\n3. Ver mayores de edad\n4. Salir\n ");
+
+            if (opcion === '1') {
+                const edadNueva = Number(await ask("Agrega una edad: "));
+                edades.push(edadNueva);
+                console.log(`Edad ${edadNueva} agregada.`);
+                console.log(`Edades: ${edades}`);       
+            } else if (opcion === '2'){
+                if (edades.length === 0) {
+                    console.log("No hay edades para quitar.");
+                    continue
+                } else {
+                    let edadQuitar = await ask("Quita una edad: ");
+                    let index = edades.indexOf(edadQuitar);
+
+                    if (index !== -1) {
+                        edades.splice(index, 1);
+                        console.log(`Edad ${edadQuitar} Eliminada.`);
+                    }
+                    
+                    console.log(`edad: ${edades}`);
+                } 
+            } else if (opcion === '3') {
+                for (let i = 0; i < edades.length; i++) {
+                    console.log(`Edad ${i + 1}: ${edades[i]}`);
+                }
+                console.log(`El total de mayores de edad es: `, obtenerMayor(edades));
+            } else if (opcion === '4') {
+                console.log("Saliendo...");
+                console.log(`Tus edades fueron: ${edades}`);
+            } else {
+                console.log("Opción no válida. Intenta de nuevo.");
+            }   
+        } 
+
+
+}
+
+main();
